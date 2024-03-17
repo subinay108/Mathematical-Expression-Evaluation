@@ -121,6 +121,7 @@ class Expression{
         Stack<Token> operatorStack = new Stack<Token>();
 
         for(Token t: tokens){
+            // System.out.print(t.value);
             if(t.type == Context.Number){
                 operandStack.add(Double.parseDouble(t.value));
             }
@@ -140,10 +141,12 @@ class Expression{
                     else if(getAssociativity(t) == 1 || getPrecedence(t)>getPrecedence(operatorStack.lastElement())){
                         operatorStack.push(t);
                     }else{
-                        double operand2 = operandStack.pop();
-                        double operand1 = operandStack.pop();
-                        double result = calc(operand1, operand2, operatorStack.pop());
-                        operandStack.push(result);
+                        while(!operatorStack.isEmpty() && getPrecedence(t)<=getPrecedence(operatorStack.lastElement())){
+                            double operand2 = operandStack.pop();
+                            double operand1 = operandStack.pop();
+                            double result = calc(operand1, operand2, operatorStack.pop());
+                            operandStack.push(result);
+                        }
                         operatorStack.push(t);
                     }
                 }
@@ -216,6 +219,7 @@ class Expression{
                 }
             }
         }
+        // System.out.println();
 
         while(!operatorStack.isEmpty()){
             double operand2 = operandStack.pop();
