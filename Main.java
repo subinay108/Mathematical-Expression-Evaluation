@@ -267,7 +267,7 @@ class Expression{
 public class Main{
     public static void main(String[] args) {
         UserInput ui = new UserInput();
-        String infixExp = ui.input("Enter infix expression: ");
+        String infixExp = ui.input("Enter a mathematical expression: ");
 
         Expression exp = new Expression(infixExp);
 
