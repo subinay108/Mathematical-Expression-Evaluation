@@ -28,7 +28,7 @@ Follow these steps to set up and run the project locally:
     ```bash
     cd math-expression-evaluation
     ```
-3.Compile the Java source files:
+3. Compile the Java source files:
     ```bash
     javac *.java
     ```
