@@ -23,48 +23,49 @@ Follow these steps to set up and run the project locally:
 
    ```bash
    git clone https://github.com/subinay108/Mathematical-Expression-Evaluation.git
+   ```
 2. Navigate to the project directory:
-```bash
-  cd math-expression-evaluation
-```
+    ```bash
+    cd math-expression-evaluation
+    ```
 3.Compile the Java source files:
-```bash
-  javac *.java
-```
+    ```bash
+    javac *.java
+    ```
 4. Run the main class to evaluate mathematical expressions:
-```bash
-  java Main
-```
+    ```bash
+    java Main
+    ```
 
 
 ## Usage/Examples
 
 To evaluate a mathematical expression, simply input it when prompted. The program will then output the result of the expression.
 1. Simple Operations
-```yaml
-Enter a mathematical expression: 2 + 3 * (4 - 1)
-Result: 11.0
-```
+    ```yaml
+    Enter a mathematical expression: 2 + 3 * (4 - 1)
+    Result: 11.0
+    ```
 2. Exponentiation Operations with right to left associativity
-```yaml
-Enter a mathematical expression: 2 ^ 3 ^ 2
-Result: 512.0
-```
+    ```yaml
+    Enter a mathematical expression: 2 ^ 3 ^ 2
+    Result: 512.0
+    ```
 3. Unary minus and unary plus 
-```yaml
-Enter a mathematical expression: -2 * (-3) + (+4)
-Result: 10.0
-```
+    ```yaml
+    Enter a mathematical expression: -2 * (-3) + (+4)
+    Result: 10.0
+    ```
 4. Functions (Trigonometric, Inverse Trigonometric, Logarithmic) 
-```yaml
-Enter a mathematical expression: sin(20) + lg(34) - atan(10)
-Result: 0.9732964934661483
-```
+    ```yaml
+    Enter a mathematical expression: sin(20) + lg(34) - atan(10)
+    Result: 0.9732964934661483
+    ```
 5. Function composition 
-```yaml
-Enter a mathematical expression: sin(cos(1) + 5)
-Result: -0.676414112265833
-```
+    ```yaml
+    Enter a mathematical expression: sin(cos(1) + 5)
+    Result: -0.676414112265833
+    ```
 
 
 ## Contributing
