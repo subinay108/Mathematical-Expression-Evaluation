@@ -227,8 +227,13 @@ class Expression{
             double result = calc(operand1, operand2, operatorStack.pop());
             operandStack.push(result);
         }
+        double res = operandStack.pop();
 
-        return String.valueOf(operandStack.pop());
+        if(res * 10 - ((int)res)*10 == 0){
+            return String.valueOf(((int)res));
+        }
+
+        return String.valueOf(res);
     } 
 
     private static double calc(double operand1, double operand2, Token opToken) {
