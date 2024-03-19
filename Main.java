@@ -135,12 +135,21 @@ class Expression{
                     if(t.value.equals(Token.PERCENT)){
                         double operand1 = operandStack.pop();
                         operandStack.push(operand1/100);
-                    }else if(operatorStack.isEmpty()){
+                    }else if(t.value.equals(Token.FACTORIAL)){
+                        double operand1 = operandStack.pop();
+                        if(operand1 >= 0 && operand1 <= 20 && (operand1*10 - (int)operand1*10 == 0 )){
+                            operandStack.push(factorial(operand1));
+                        }else{
+                            return "Can't do factorial. Error";
+                        }
+                    }
+                    else if(operatorStack.isEmpty()){
                         operatorStack.push(t);
                     }
                     else if(getAssociativity(t) == 1 || getPrecedence(t)>getPrecedence(operatorStack.lastElement())){
                         operatorStack.push(t);
                     }else{
+
                         while(!operatorStack.isEmpty() && getPrecedence(t)<=getPrecedence(operatorStack.lastElement())){
                             double operand2 = operandStack.pop();
                             double operand1 = operandStack.pop();
@@ -215,7 +224,11 @@ class Expression{
                     }
                 }
                 else if(t.type == Context.Function){
-                    operatorStack.push(t);
+                    if(t.value.equals("Rand")){
+                        operandStack.push(Math.random());
+                    }else{
+                        operatorStack.push(t);
+                    }
                 }
             }
         }
@@ -236,6 +249,14 @@ class Expression{
         return String.valueOf(res);
     } 
 
+    private static double factorial(double operand1){
+        double r = 1;
+        while(operand1 > 1){
+            r *= operand1--;
+        }
+        return r;
+    }
+
     private static double calc(double operand1, double operand2, Token opToken) {
         if(opToken.value.equals(Token.ADD)){
             return operand1 + operand2;
@@ -247,6 +268,8 @@ class Expression{
             return operand1 / operand2;
         }else if(opToken.value.equals(Token.POWER)){
             return Math.pow(operand1, operand2);
+        }else if(opToken.value.equals(Token.RADICAL)){
+            return Math.pow(operand2, 1.0/operand1);
         }
         return 0;
         
@@ -265,7 +288,7 @@ class Expression{
             return 1;
         }else if(opToken.value.equals(Token.MULTIPLY) || opToken.value.equals(Token.DIVIDE)){
             return 2;
-        }else if(opToken.value.equals(Token.POWER)){
+        }else if(opToken.value.equals(Token.POWER) || opToken.value.equals(Token.RADICAL)){
             return 3;
         }
         return 0;
