@@ -16,7 +16,7 @@ class Token{
     // type = 0->Number, 1->Operator, 2->Function, 3->Parenthesis, 4->Constant
     
     public static String ADD = "+",SUBTRACT = "-", MULTIPLY = "*", DIVIDE = "/", PERCENT = "%",
-    POWER = "^", FACTORIAL = "!", RADICAL = "#", EOL = "$", PI = "@";
+    POWER = "^", FACTORIAL = "!", RADICAL = "#", EOL = "$", PI = "@", EULER = "e";
 
     public static String OperatorString = ADD + SUBTRACT + MULTIPLY + DIVIDE + PERCENT + POWER + FACTORIAL + RADICAL;
 
@@ -75,14 +75,14 @@ class Tokenizer{
         
         if(isDigit(ch) || ch == '.'){
             return Context.Number;
+        }else if(String.valueOf(ch).equals(Token.PI) || String.valueOf(ch).equals(Token.EULER)){
+            return Context.Constant;
         }else if(isAlpha(ch)){
             return Context.Function;
         }else if(isOperator(ch)){
             return Context.Operator;
         }else if(ch == '(' || ch == ')'){
             return Context.Parenthesis;
-        }else if(String.valueOf(ch).equals(Token.PI)){
-            return Context.Constant;
         }
         return Context.Invalid;
     }
@@ -129,6 +129,8 @@ class Expression{
             else if(t.type == Context.Constant){
                 if(t.value.equals(Token.PI)){
                     operandStack.add(Math.PI);
+                }else if(t.value.equals(Token.EULER)){
+                    operandStack.add(Math.exp(1));
                 }
             }
             else{
