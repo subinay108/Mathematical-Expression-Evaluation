@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -242,11 +243,14 @@ class Expression{
         }
         double res = operandStack.pop();
 
-        if(res * 10 - ((int)res)*10 == 0){
-            return String.valueOf(((int)res));
+        DecimalFormat df = new DecimalFormat("#.###############");
+        // df.setRoundingMode(RoundingMode.CEILING);
+        if(res > 10e15){
+            return String.valueOf(res);
         }
 
-        return String.valueOf(res);
+        return String.valueOf(df.format(res));
+
     } 
 
     private static double factorial(double operand1){
