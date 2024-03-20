@@ -38,8 +38,16 @@ class Tokenizer{
         Context context = getContext(expression.charAt(0));
         for(int i = 1; i < expression.length(); i++){
             char ch = expression.charAt(i);
-            
+
+            if(ch == '2' && s.equals("log")){
+                tokens.add(new Token("log2", Context.Function));
+                s = "";
+                context = Context.Invalid;
+                continue;
+            }
+
             Context ct = getContext(ch);
+
             if(context != ct){
                 if((context == Context.Number && ct == Context.Constant) ||
                    (context == Context.Constant && ct == Context.Number) ||
@@ -51,6 +59,7 @@ class Tokenizer{
             }
             
             if(context != ct ||ct == Context.Parenthesis || ct == Context.Operator){
+                // make unary plus and minus to binary by putting 0 before them
                 if(context == Context.Operator && "+-".contains(s)){
                     if(i == 1 || expression.charAt(i-2) == '('){
                         tokens.add(new Token("0", Context.Number));
