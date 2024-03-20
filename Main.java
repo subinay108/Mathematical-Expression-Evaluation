@@ -16,7 +16,7 @@ class Token{
     // type = 0->Number, 1->Operator, 2->Function, 3->Parenthesis, 4->Constant
     
     public static String ADD = "+",SUBTRACT = "-", MULTIPLY = "*", DIVIDE = "/", PERCENT = "%",
-    POWER = "^", FACTORIAL = "!", RADICAL = "#", EOL = "$", PI = "@", EULER = "e";
+    POWER = "^", FACTORIAL = "!", RADICAL = "#", EOL = "$", PI = "@", EULER = "e", ESCI = "E";
 
     public static String OperatorString = ADD + SUBTRACT + MULTIPLY + DIVIDE + PERCENT + POWER + FACTORIAL + RADICAL;
 
@@ -112,10 +112,17 @@ class Tokenizer{
 
 
 class Expression{
-    String infix;
+    private String infix;
+    private boolean degreeAngle = false;
+
     Expression(String exp){
         infix = exp;
     }
+
+    public void setDegreeAngle(Boolean b){
+        degreeAngle = b;
+    }
+
     public String eval(){
         Vector<Token> tokens = Tokenizer.tokenize(infix);
         Stack<Double> operandStack = new Stack<Double>();
@@ -177,50 +184,58 @@ class Expression{
                         operatorStack.pop();
                         if(!operatorStack.isEmpty() && operatorStack.lastElement().type == Context.Function){
                             Token fuToken = operatorStack.pop();
+                            double operand1 = operandStack.pop();
+
                             if(fuToken.value.equals("sin")){
-                                double operand1 = operandStack.pop();
+                                if(degreeAngle){
+                                    operand1 = Math.toRadians(operand1);
+                                }    
                                 operandStack.push(Math.sin(operand1));
                             }else if(fuToken.value.equals("cos")){
-                                double operand1 = operandStack.pop();
+                                if(degreeAngle){
+                                    operand1 = Math.toRadians(operand1);
+                                }
                                 operandStack.push(Math.cos(operand1));
                             }else if(fuToken.value.equals("tan")){
-                                double operand1 = operandStack.pop();
+                                if(degreeAngle){
+                                    operand1 = Math.toRadians(operand1);
+                                }
                                 operandStack.push(Math.tan(operand1));
                             }else if(fuToken.value.equals("lg")){
-                                double operand1 = operandStack.pop();
                                 operandStack.push(Math.log10(operand1));
                             }else if(fuToken.value.equals("ln")){
-                                double operand1 = operandStack.pop();
                                 operandStack.push(Math.log(operand1));
                             }else if(fuToken.value.equals("log2")){
-                                double operand1 = operandStack.pop();
                                 operandStack.push(Math.log(operand1)/Math.log(2));
                             }else if(fuToken.value.equals("sinh")){
-                                double operand1 = operandStack.pop();
                                 operandStack.push(Math.sinh(operand1));
                             }else if(fuToken.value.equals("cosh")){
-                                double operand1 = operandStack.pop();
                                 operandStack.push(Math.cosh(operand1));
                             }else if(fuToken.value.equals("tanh")){
-                                double operand1 = operandStack.pop();
                                 operandStack.push(Math.tanh(operand1));
                             }else if(fuToken.value.equals("asin")){
-                                double operand1 = operandStack.pop();
-                                operandStack.push(Math.asin(operand1));
+                                if(degreeAngle){
+                                    operandStack.push(Math.toDegrees(Math.asin(operand1)));
+                                }else{
+                                    operandStack.push(Math.asin(operand1));
+                                }
                             }else if(fuToken.value.equals("acos")){
-                                double operand1 = operandStack.pop();
-                                operandStack.push(Math.acos(operand1));
+                                if(degreeAngle){
+                                    operandStack.push(Math.toDegrees(Math.acos(operand1)));
+                                }else{
+                                    operandStack.push(Math.acos(operand1));
+                                }
                             }else if(fuToken.value.equals("atan")){
-                                double operand1 = operandStack.pop();
-                                operandStack.push(Math.atan(operand1));
+                                if(degreeAngle){
+                                    operandStack.push(Math.toDegrees(Math.atan(operand1)));
+                                }else{
+                                    operandStack.push(Math.atan(operand1));
+                                }
                             }else if(fuToken.value.equals("asinh")){
-                                double operand1 = operandStack.pop();
                                 operandStack.push(Math.log(operand1 + Math.sqrt(operand1 * operand1 + 1)));
                             }else if(fuToken.value.equals("acosh")){
-                                double operand1 = operandStack.pop();
                                 operandStack.push(Math.log(operand1 + Math.sqrt(operand1 * operand1 - 1)));
                             }else if(fuToken.value.equals("atanh")){
-                                double operand1 = operandStack.pop();
                                 operandStack.push(0.5 * Math.log((1 + operand1) / (1 - operand1)));
                             }
                         }
@@ -308,6 +323,7 @@ public class Main{
         String infixExp = ui.input("Enter a mathematical expression: ");
 
         Expression exp = new Expression(infixExp);
+        exp.setDegreeAngle(true);
 
         String value = exp.eval();
         System.out.println(value);
